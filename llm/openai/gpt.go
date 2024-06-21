@@ -42,7 +42,7 @@ type ChatGPTRequestBody struct {
 // -d '{"model": "text-davinci-003", "prompt": "give me good song", "temperature": 0, "max_tokens": 7}'
 func Completions(msg string) (string, error) {
 	requestBody := ChatGPTRequestBody{
-		Model:            "text-davinci-003",
+		Model:            "gpt-3.5-turbo",
 		Prompt:           msg,
 		MaxTokens:        2048,
 		Temperature:      0.7,
@@ -69,6 +69,10 @@ func Completions(msg string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	//拼接出curl完成的参数，并打印
+	log.Printf("curl -X POST %s -H \"Content-Type: application/json\" -H \"Authorization"+
+		": Bearer %s\" -d '%s'", BASEURL+"completions", apiKey, string(requestData))
+
 	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
