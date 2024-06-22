@@ -2,10 +2,11 @@
 package handler
 
 import (
-	"github.com/eatmoreapple/openwechat"
 	"log"
 	"strings"
 	"wechat_llm/llm/openai"
+
+	"github.com/eatmoreapple/openwechat"
 )
 
 var _ MessageHandlerInterface = (*PrivateMessageHandler)(nil)
@@ -36,10 +37,15 @@ func (g *PrivateMessageHandler) ReplyText(msg *openwechat.Message) error {
 	// 向GPT发起请求
 	requestText := strings.TrimSpace(msg.Content)
 	requestText = strings.Trim(msg.Content, "\n")
-	reply, err := openai.Completions(requestText)
+	//reply, err := openai.Completions(requestText)
+	reply, err := openai.GPTProxyChat(requestText)
+
 	if err != nil {
 		log.Printf("gtp request error: %v \n", err)
-		msg.ReplyText("As a AI BOT, I am still learning. Please wait for a while.")
+		_, err := msg.ReplyText("...")
+		if err != nil {
+			return err
+		}
 		return err
 	}
 	if reply == "" {
