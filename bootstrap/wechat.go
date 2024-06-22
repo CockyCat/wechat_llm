@@ -42,8 +42,24 @@ func (w Wechat) Run() {
 	}
 
 	// 获取所有的好友
-	friends, err := self.Friends()
-	fmt.Println(friends, err)
+	//friends, err := self.Friends()
+	//for _, friend := range friends {
+	//	msg, err := friend.SendText("检查下是否还是好友")
+	//	fmt.Println(fmt.Sprintf("检测好友 %v", friend.Alias))
+	//
+	//	fmt.Println()
+	//
+	//	isFriend := friend.IsFriend()
+	//	if isFriend == false {
+	//		fmt.Println(fmt.Sprintf("%v 不是好友，可以删除。", friend.Alias))
+	//	}
+	//
+	//	if err != nil {
+	//		fmt.Println("检测好友消息err:", err)
+	//	}
+	//}
+
+	//fmt.Println(friends, err)
 
 	// 获取所有的群组
 	groups, err := self.Groups()
