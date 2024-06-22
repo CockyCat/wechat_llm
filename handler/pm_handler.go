@@ -2,6 +2,7 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"wechat_llm/llm/openai"
@@ -17,7 +18,9 @@ type PrivateMessageHandler struct {
 
 // handle 处理消息
 func (g *PrivateMessageHandler) handle(msg *openwechat.Message) error {
+	fmt.Println("handle pm")
 	if msg.IsText() {
+		fmt.Println("ReplyText")
 		return g.ReplyText(msg)
 	}
 	return nil

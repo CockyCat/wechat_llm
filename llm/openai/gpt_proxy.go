@@ -88,7 +88,7 @@ func getChatCompletion(apiKey, model, userMessage string) (string, error) {
 
 func GPTProxyChat(msg string) (resp string, err error) {
 	apiKey := config.LoadConfig().ApiKey
-	model := "gpt-3.5-turbo"
+	model := "gpt-4o"
 
 	content, err := getChatCompletion(apiKey, model, msg)
 	if err != nil {
