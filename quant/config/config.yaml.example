@@ -1,0 +1,9 @@
+OPENAI_API_KEY: J23cKY6123B0Cf49E44
+
+
+OkxApiConf:
+  ApiHost: https://api.xxx.com
+  ApiKey: 6MO50FtkOPJ23cKY6123B
+  SecretKey: 6MO50FtkOPJ23cKY6cDdBeDf8e30
+  Passphrase: 6MO50FtkOPJ23c
+  IsSimulated: true
