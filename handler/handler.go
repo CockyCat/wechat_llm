@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/eatmoreapple/openwechat"
 	"log"
 	"wechat_llm/config"
+
+	"github.com/eatmoreapple/openwechat"
 )
 
 // MessageHandlerInterface message handler interface
@@ -55,4 +56,10 @@ func Handler(msg *openwechat.Message) {
 	if err != nil {
 		return
 	}
+
+	if msg.IsJoinGroup() {
+		handler := GroupMessageHandler{}
+		handler.Welcome(msg)
+	}
+
 }

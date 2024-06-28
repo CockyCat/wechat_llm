@@ -28,32 +28,29 @@ func LoadConfig() *Configuration {
 		// 从文件中读取
 		config = &Configuration{}
 		// 如果环境变量有配置，读取环境变量
-		ApiKey := os.Getenv("OPENAI_API_KEY")
-		if ApiKey != "" {
-			config.ApiKey = ApiKey
-		} else {
-			//读取config/config.yaml配置文件中的OPENAI_API_KEY
-			fmt.Println("读取config/config.yaml配置文件中的OPENAI_API_KEY")
-			// 获取项目根目录
-			projectRoot, err := getProjectRoot()
 
-			fmt.Println("projectRoot:", projectRoot)
-			if err != nil {
-				log.Fatalf("Error reading project root: %v", err)
-			}
+		//读取config/config.yaml配置文件中的OPENAI_API_KEY
+		fmt.Println("读取config/config.yaml配置文件中的OPENAI_API_KEY")
+		// 获取项目根目录
+		projectRoot, err := getProjectRoot()
 
-			// 设置配置文件名（不带扩展名）
-			viper.SetConfigName("config")
-			viper.SetConfigType("yaml")
-
-			viper.AddConfigPath(filepath.Join(projectRoot, "config"))
-
-			if err := viper.ReadInConfig(); err != nil {
-				log.Fatalf("Error reading config file: %v", err)
-			}
-			config.ApiKey = viper.GetString("OPENAI_API_KEY")
+		fmt.Println("projectRoot:", projectRoot)
+		if err != nil {
+			log.Fatalf("Error reading project root: %v", err)
 		}
-		config.AutoPass = true
+
+		// 设置配置文件名（不带扩展名）
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+
+		viper.AddConfigPath(filepath.Join(projectRoot, "config"))
+
+		if err := viper.ReadInConfig(); err != nil {
+			log.Fatalf("Error reading config file: %v", err)
+		}
+		config.ApiKey = viper.GetString("OPENAI_API_KEY")
+
+		config.AutoPass = false
 	})
 	return config
 }

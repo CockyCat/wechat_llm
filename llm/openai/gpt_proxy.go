@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"wechat_llm/config"
 )
@@ -63,6 +64,10 @@ func getChatCompletion(apiKey, model, userMessage string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	//拼接出curl完成的参数，并打印
+	log.Printf("curl -X POST %s -H \"Content-Type: application/json\" -H \"Authorization"+
+		": Bearer %s\" -d '%s'", url, apiKey, string(requestBody))
+
 	defer resp.Body.Close()
 
 	// 读取响应体
@@ -77,6 +82,7 @@ func getChatCompletion(apiKey, model, userMessage string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	fmt.Println("chatResponse:", chatResponse)
 
 	// 返回响应内容
 	if len(chatResponse.Choices) > 0 {

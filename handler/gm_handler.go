@@ -4,6 +4,7 @@ import (
 	"log"
 	"strings"
 	"wechat_llm/llm/openai"
+	"wechat_llm/macro"
 
 	"github.com/eatmoreapple/openwechat"
 )
@@ -33,6 +34,15 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 	sender, err := msg.Sender()
 	group := openwechat.Group{User: sender}
 	log.Printf("Received Group %v Text Msg : %v", group.NickName, msg.Content)
+
+	if msg.Content == "FEDFUNDS" || msg.Content == "SOFR" || msg.Content == "DGS10" {
+		marcoFRContent := macro.RunAndGetData(msg.Content)
+		_, err := msg.ReplyText(marcoFRContent)
+		if err != nil {
+			log.Printf("response group error: %v \n", err)
+		}
+		log.Printf("FR marco data have sended to Group.")
+	}
 
 	// 不是@的不处理
 	if !msg.IsAt() {
@@ -74,4 +84,24 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 		log.Printf("response group error: %v \n", err)
 	}
 	return err
+}
+
+func (g *GroupMessageHandler) Welcome(msg *openwechat.Message) {
+	content := msg.Content
+	parts := strings.Split(content, "加入了群聊")
+	if len(parts) != 2 {
+		log.Printf("content split error: %v", content)
+		return
+	}
+	nickName := parts[0]
+	log.Printf("new member %v join group", nickName)
+
+	reply := "欢迎新成员" + nickName + "加入群聊, 请报上三围、身高、体重。"
+
+	atText := "@" + nickName
+	replyText := atText + reply
+	_, err := msg.ReplyText(replyText)
+	if err != nil {
+		log.Printf("welcome new member error: %v", err)
+	}
 }

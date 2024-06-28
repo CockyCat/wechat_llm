@@ -2,9 +2,10 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/eatmoreapple/openwechat"
 	"log"
 	"wechat_llm/handler"
+
+	"github.com/eatmoreapple/openwechat"
 )
 
 type Wechat struct{}
@@ -66,5 +67,8 @@ func (w Wechat) Run() {
 	fmt.Println(groups, err)
 
 	// 阻塞主goroutine, 直到发生异常或者用户主动退出
-	bot.Block()
+	err = bot.Block()
+	if err != nil {
+		return
+	}
 }
