@@ -17,6 +17,9 @@ type Configuration struct {
 	ApiKey string `json:"api_key"`
 	// 自动通过好友
 	AutoPass bool `json:"auto_pass"`
+
+	TwitterApiToken string `json:"twitter_api_token"`
+	TwitterUserId   string `json:"twitter_user_id"`
 }
 
 var config *Configuration
@@ -49,6 +52,8 @@ func LoadConfig() *Configuration {
 			log.Fatalf("Error reading config file: %v", err)
 		}
 		config.ApiKey = viper.GetString("OPENAI_API_KEY")
+		config.TwitterApiToken = viper.GetString("TWITTER_API_TOKEN")
+		config.TwitterUserId = viper.GetString("TWITTER_USER_ID")
 
 		config.AutoPass = false
 	})
